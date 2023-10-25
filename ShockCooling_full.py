@@ -41,20 +41,22 @@ def lossSol(r,tu,lfint):
 	res=np.argwhere(s3 <=0)+1	
 	return(res)
 
-beta=0.01
+beta=0.1
 theta=3.14/8.0
 T0=tlf[np.argmax(lf)]
 gamma=5.0/3.0
 
 r=2.0
 
-nelements=10001
+nelements=100001
 admax=3.0
 nelements2=10000
 compmax=10.0
 a2d=[]
 a2u=[]#np.empty(nelements)
 errarr=[]
+dT=[]
+
 tj=[]
 a2dc=[]
 a2uc=[]#np.empty(nelements)
@@ -76,11 +78,11 @@ tlfint=np.logspace(3,7,10000)
 lffunc=interp1d(tlf,lf,kind='cubic')
 lfint=lffunc(tlfint)
 
-rarr=np.linspace(1.1,5.0,1000)
+rarr=np.linspace(1.01,5.0,10000)
 
 for RhoJump in rarr:
 
-	for i in range(0,nelements):
+	for i in range(1,nelements):
 	    #Hau-Sonnerup solution
 	    a2dhau[i]=float(i)*stepsize
 	    a2uhau[i]=RhoJump*a2dhau[i]
@@ -92,12 +94,22 @@ for RhoJump in rarr:
 	        AlgTjump=tempjump(a2dhau[i],a2uhau[i],beta,theta)
 	
 	        #find the temperatre residule
-	        if np.abs(LossTjump-AlgTjump) <= 1.0e-1:
-	            a2d.append(a2dhau[i]);a2u.append(a2uhau[i]);errarr.append(LossTjump-AlgTjump)
+	        if np.abs(LossTjump-AlgTjump) <= 1.0e-2:
+	            a2d.append(a2dhau[i]);a2u.append(a2uhau[i]);errarr.append(LossTjump-AlgTjump);dT.append(LossTjump)
 
+
+#Save the data
+hf = h5py.File('ShockCooling_full_data.h5', 'w')
+hf.create_dataset('a2d', data=a2d)
+hf.create_dataset('a2u', data=a2u)
+hf.create_dataset('errarr', data=errarr)
+hf.create_dataset('dT', data=dT)
+hf.create_dataset('theta', data=theta)
+hf.create_dataset('beta', data=beta)
+hf.close()
 
 fig, ax = plt.subplots(figsize=(9.7, 6),dpi=300)  
-ax.plot(a2d,a2u,'k.')
+ax.plot(a2d,a2u,'k.', markersize=4)
 ax.plot([0,2],[0,2])
 ax.set_ylim(0,4)
 ax.set_xlim(0,2)
