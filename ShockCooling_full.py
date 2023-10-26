@@ -26,14 +26,6 @@ def tempjump(a2d,a2u,beta,theta):
                    *(a2u-a2d+0.5*np.square(np.tan(theta))*(1.0-np.square((a2u-1.0)/(a2d-1.0)))))
     return tjump
 
-def lossjump(a2d,a2u,lfd,lfu):
-    difloss=np.square(a2d**2/a2u**2)-lfd/lfu
-#    if lfu < 1.0e-20:
-#        difloss=0.0
-#    else:
-#    difloss=(a2d**2*lfd)/(a2u**2*lfu)
-    return difloss
-
 def lossSol(r,tu,lfint):
 	soall=np.zeros_like(lfint)+1.0/r**2
 	s2=lfint-soall
@@ -46,42 +38,28 @@ theta=3.14/8.0
 T0=tlf[np.argmax(lf)]
 gamma=5.0/3.0
 
-r=2.0
+nelements=5001
+admax=2.0
 
-nelements=100001
-admax=3.0
-nelements2=10000
-compmax=10.0
 a2d=[]
 a2u=[]#np.empty(nelements)
 errarr=[]
 dT=[]
 
-tj=[]
-a2dc=[]
-a2uc=[]#np.empty(nelements)
-a2diso=[]
-a2uiso=[]
 a2uhau=np.empty(nelements)
 a2dhau=np.empty(nelements)
 
-atest=np.empty(nelements2+2)
-larr=np.empty(nelements2+2)
-rarr=np.empty(nelements2+2)
-dif=np.empty(nelements2+2)
-
 stepsize=admax/nelements
-compsize=compmax/nelements2
 
 #Get a higher res loss function
 tlfint=np.logspace(3,7,10000)
 lffunc=interp1d(tlf,lf,kind='cubic')
 lfint=lffunc(tlfint)
 
-rarr=np.linspace(1.01,5.0,10000)
+rarr=np.linspace(1.01,5.01,10001)
 
 for RhoJump in rarr:
-
+	print(RhoJump)
 	for i in range(1,nelements):
 	    #Hau-Sonnerup solution
 	    a2dhau[i]=float(i)*stepsize
@@ -106,6 +84,8 @@ hf.create_dataset('errarr', data=errarr)
 hf.create_dataset('dT', data=dT)
 hf.create_dataset('theta', data=theta)
 hf.create_dataset('beta', data=beta)
+hf.create_dataset('rmax',data=np.max(rarr))
+hf.create_dataset('rmin',data=np.min(rarr))
 hf.close()
 
 fig, ax = plt.subplots(figsize=(9.7, 6),dpi=300)  
