@@ -69,9 +69,14 @@ if ShockJumpRead == True:
 	
 	    # If a_group_key is a group name, 
 	    # this gets the object names in the group and returns as a list
-		Tjarr = list(f['Tjarr'])
-		rojarr=list(f['rojarr'])
-		prjarr=list(f['prjarr'])
+		Tjarr = np.array(f['Tjarr'])
+		rojarr=np.array(f['rojarr'])
+		prjarr=np.array(f['prjarr'])
+		
+		#Only have the compression solutions
+		rojarr=rojarr[np.where(rojarr>1.0)]
+		Tjarr=Tjarr[np.where(rojarr>1.0)]
+		prjarr=prjarr[np.where(rojarr>1.0)]
 else:	
 	Tjarr=[]
 	T2jarr=[]
@@ -128,4 +133,13 @@ ax.set_xlabel('$\log_{10}(T^d/T^u)$')
 ax.set_ylabel('Counts')
 plt.savefig('shockCoolingTest.png',dpi=300,bbox_inches='tight')
 
-#ax.scatter((rojarr),np.log10(Tjarr),c=np.log10(prjarr),norm=colors.CenteredNorm(),cmap='RdBu');plt.colorbar()
+fig, ax = plt.subplots(figsize=(9, 6))
+sp=plt.scatter(np.log10(rojarr),np.log10(Tjarr),c=np.log10(prjarr),norm=colors.CenteredNorm(),cmap='PRGn')
+plt.colorbar(sp,label='$\log_{10}(P^d/P^u)$')
+plt.plot([-0.5,2.0],[0,0],'k')
+ax.text(1.25,-1.8,'Cooling shocks',color='b')
+ax.text(1.25,2.0,'Heating shocks',color='r')
+ax.set_xlim(0.0,1.6)
+ax.set_ylabel('$\log_{10}(T^d/T^u)$')
+ax.set_xlabel('$\log_{10}(\\rho^d/\\rho^u)$')
+plt.savefig('shockCoolingPressureScatter.png',dpi=300,bbox_inches='tight')
