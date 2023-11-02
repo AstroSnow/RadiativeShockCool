@@ -56,28 +56,28 @@ tlfint=np.logspace(3,7,10000)
 lffunc=interp1d(tlf,lf,kind='cubic')
 lfint=lffunc(tlfint)
 
-rarr=np.linspace(1.01,5.01,10001)
+rarr=np.linspace(1.01,10.01,10001)
 
 for RhoJump in rarr:
 	print(RhoJump)
 	for i in range(1,nelements):
-	    #Hau-Sonnerup solution
-	    a2dhau[i]=float(i)*stepsize
-	    a2uhau[i]=RhoJump*a2dhau[i]
+		#Hau-Sonnerup solution
+		a2dhau[i]=float(i)*stepsize
+		a2uhau[i]=RhoJump*a2dhau[i]
+		if a2uhau[i] <=4:
+			#Find the potential solutions to the loss jump
+			solarr=lossSol(a2uhau[i]/a2dhau[i], T0, lfint)
+			for j in solarr:
+				LossTjump=tlfint[j]/T0
+				AlgTjump=tempjump(a2dhau[i],a2uhau[i],beta,theta)
 		
-		#Find the potential solutions to the loss jump
-	    solarr=lossSol(a2uhau[i]/a2dhau[i], T0, lfint)
-	    for j in solarr:
-	        LossTjump=tlfint[j]/T0
-	        AlgTjump=tempjump(a2dhau[i],a2uhau[i],beta,theta)
-	
-	        #find the temperatre residule
-	        if np.abs(LossTjump-AlgTjump) <= 1.0e-2:
-	            a2d.append(a2dhau[i]);a2u.append(a2uhau[i]);errarr.append(LossTjump-AlgTjump);dT.append(LossTjump)
+		        #find the temperatre residule
+				if np.abs(LossTjump-AlgTjump) <= 1.0e-2:
+					a2d.append(a2dhau[i]);a2u.append(a2uhau[i]);errarr.append(LossTjump-AlgTjump);dT.append(LossTjump)
 
 
 #Save the data
-hf = h5py.File('ShockCooling_full_data.h5', 'w')
+hf = h5py.File('ShockCooling_full_data_2.h5', 'w')
 hf.create_dataset('a2d', data=a2d)
 hf.create_dataset('a2u', data=a2u)
 hf.create_dataset('errarr', data=errarr)

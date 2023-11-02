@@ -12,9 +12,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 import h5py
 from scipy.interpolate import interp1d
+from matplotlib.legend_handler import HandlerLine2D
 
 #Get the loss function 
-filename='ShockCooling_full_data.h5'
+filename='ShockCooling_full_data_2.h5'
 f=h5py.File(filename, "r")
 shocks={}
 for var in f.keys():
@@ -49,14 +50,19 @@ for i in range(1,nelements):
 adcool=np.where(shocks['dT'] <=0.9 )
 adheat=np.where(shocks['dT'] >=1.1 )
 
+def update_prop(handle, orig):
+    handle.update_from(orig)
+    handle.set_marker("")
+    handle.set_linestyle('-')
+
 fig, ax = plt.subplots(figsize=(9.7, 6),dpi=300)  
-ax.plot(a2dhau,a2uhau,'k.',markersize=4)
-ax.plot(shocks['a2d'],shocks['a2u'],'g.', markersize=4)
-ax.plot(shocks['a2d'][adcool[0]],shocks['a2u'][adcool[0]],'b.', markersize=4)
-ax.plot(shocks['a2d'][adheat[0]],shocks['a2u'][adheat[0]],'r.', markersize=4)
+line1=ax.plot(a2dhau,a2uhau,'k.',markersize=4,label='Ideal MHD')
+line2=ax.plot(shocks['a2d'],shocks['a2u'],'g.', markersize=4,label='Isothermal')
+line3=ax.plot(shocks['a2d'][adcool[0]],shocks['a2u'][adcool[0]],'b.', markersize=4,label='Cooling')
+line4=ax.plot(shocks['a2d'][adheat[0]],shocks['a2u'][adheat[0]],'r.', markersize=4,label='Heating')
 
 ax.fill([0,2,2],[0,2,0], edgecolor='black', hatch='//',facecolor='w')
-ax.fill([0,0,np.max(a2uhau)/shocks['rmax']],[0,np.max(a2uhau),np.max(a2uhau)], edgecolor='black', hatch='//',facecolor='w')
+#ax.fill([0,0,np.max(a2uhau)/shocks['rmax']],[0,np.max(a2uhau),np.max(a2uhau)], edgecolor='black', hatch='//',facecolor='w')
 #ax.fill_between(a2dhau, 1, where=a2dhau-a2uhau > 0, facecolor='green', alpha=.5)
 ax.plot([0,2],[0,2])
 #ax.plot([0,2],np.sqrt([Va2,Va2]))
@@ -67,5 +73,7 @@ ax.set_ylim(0,4)
 ax.set_xlim(0,2)
 ax.set_ylabel('$A^{u2}$',fontsize=14)
 ax.set_xlabel('$A^{d2}$',fontsize=14)
+#ax.legend()
+plt.legend(handler_map={plt.Line2D:HandlerLine2D(update_func=update_prop)})
 #plt.show()
 plt.savefig('ShockCooling_plot.png',dpi=300,bbox_inches='tight')

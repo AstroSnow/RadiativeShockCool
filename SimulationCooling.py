@@ -53,7 +53,7 @@ if ContextPlot==True:
 	sl=ax.plot(shocksf['slow'][:,1],shocksf['slow'][:,0],color='r',linestyle='',marker='.',markersize=2.8)
 	ax.set_xlabel('x')
 	ax.set_ylabel('y')
-	plt.savefig('shockCoolingTest_context.png',dpi=300)
+	plt.savefig('shockCoolingTest_context.png',dpi=300,bbox_inches='tight')
 
 
 if ShockJumpRead == True:
@@ -106,14 +106,26 @@ else:
 fig, ax = plt.subplots(figsize=(9, 6))
 #plt.hist(np.log10(Tjarr),bins=np.linspace(-2,2,150))
 Tjar=np.array(Tjarr)
-ax.hist(np.log10(Tjar),bins=np.linspace(-2,2,150),color='g')
-ax.hist(np.log10(Tjar[np.where(Tjar<0.9)]),bins=np.linspace(-2,2,150))
-ax.hist(np.log10(Tjar[np.where(Tjar>1.1)]),bins=np.linspace(-2,2,150),color='r')
-#ax.plot([0,0],[0,600],'r')
+#ax.fill([-2,-2,np.log10(0.9),np.log10(0.9)],[0,210,210,0],'b')
+#ax.fill([np.log10(0.9),np.log10(0.9),np.log10(1.1),np.log10(1.1)],[0,210,210,0],'g')
+#ax.fill([2,2,np.log10(1.1),np.log10(1.1)],[0,210,210,0],'r')
+N, bins, patches=ax.hist(np.log10(Tjar),bins=np.linspace(-2,2,150),color='k')
+for i in range(0,73):
+    patches[i].set_facecolor('b')
+for i in range(73,76):    
+    patches[i].set_facecolor('g')
+for i in range(76, len(patches)):
+    patches[i].set_facecolor('r')
+ax.text(-1.9,200,'Cooling shocks',color='b')
+ax.text(1.3,200,'Heating shocks',color='r')
+#ax.hist(np.log10(Tjar[np.where(Tjar<0.9)]),bins=np.linspace(-2,2,150))
+#ax.hist(np.log10(Tjar[np.where(Tjar>1.1)]),bins=np.linspace(-2,2,150),color='r')
+#ax.plot(np.log10([1.1,1.1]),[0,600],'r')
+#ax.plot(np.log10([0.9,0.9]),[0,600],'b')
 ax.set_xlim(-2,2)
 ax.set_ylim(0,210)
 ax.set_xlabel('$\log_{10}(T^d/T^u)$')
 ax.set_ylabel('Counts')
-plt.savefig('shockCoolingTest.png',dpi=300)
+plt.savefig('shockCoolingTest.png',dpi=300,bbox_inches='tight')
 
 #ax.scatter((rojarr),np.log10(Tjarr),c=np.log10(prjarr),norm=colors.CenteredNorm(),cmap='RdBu');plt.colorbar()
