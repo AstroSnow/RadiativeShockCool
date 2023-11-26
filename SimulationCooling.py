@@ -107,6 +107,7 @@ else:
 	hf.create_dataset('rojarr', data=rojarr)
 	hf.create_dataset('prjarr', data=prjarr)
 	hf.close()
+	stop
 	
 fig, ax = plt.subplots(figsize=(9, 6))
 #plt.hist(np.log10(Tjarr),bins=np.linspace(-2,2,150))

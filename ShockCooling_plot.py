@@ -15,7 +15,8 @@ from scipy.interpolate import interp1d
 from matplotlib.legend_handler import HandlerLine2D
 
 #Get the loss function 
-filename='ShockCooling_full_data_2.h5'
+#filename='ShockCooling_full_data_T_max.h5'
+filename='ShockCooling_full_data_T_max_beta_0.5_theta_025pi.h5'
 f=h5py.File(filename, "r")
 shocks={}
 for var in f.keys():
@@ -76,4 +77,6 @@ ax.set_xlabel('$A^{d2}$',fontsize=14)
 #ax.legend()
 plt.legend(handler_map={plt.Line2D:HandlerLine2D(update_func=update_prop)})
 #plt.show()
-plt.savefig('ShockCooling_plot.png',dpi=300,bbox_inches='tight')
+#plt.savefig('ShockCooling_plot_T_max.png',dpi=300,bbox_inches='tight')
+plt.savefig('ShockCooling_full_data_T_max_beta_0.5_theta_025pi.png',dpi=300,bbox_inches='tight')
+
