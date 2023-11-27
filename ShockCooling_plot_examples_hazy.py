@@ -55,7 +55,7 @@ ax.set_xlabel('$T[K]$',fontsize=14)
 
 #########################################################################################
 #Get the loss function 
-filename='ShockCooling_hazy_data_T_1000.h5'
+filename='ShockCooling_hazy_data_T_1000_par.h5'
 f=h5py.File(filename, "r")
 shocks={}
 for var in f.keys():

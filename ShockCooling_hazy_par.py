@@ -74,7 +74,7 @@ def radJumpSol(nr):
 beta=0.1
 theta=3.14/8.0
 #T0=tlf[np.argmax(lf)]
-T0=1.0e3
+T0=1.0e5
 gamma=5.0/3.0
 
 nelements=10001
@@ -91,7 +91,7 @@ a2dhau=np.empty(nelements)
 stepsize=admax/nelements
 
 #Get a higher res loss function
-tlfint=np.logspace(2,7,10000)
+tlfint=np.logspace(1,9,10000)
 #lffunc=interp1d(tlf,lf,kind='cubic')
 lffunc=PchipInterpolator(tlf,lf)
 lfint=lffunc(tlfint)
@@ -120,7 +120,7 @@ for i in range(0,nropoints):
 
 
 #Save the data
-hf = h5py.File('ShockCooling_hazy_data_T_1000_par.h5', 'w')
+hf = h5py.File('ShockCooling_hazy_data_T_100000_par.h5', 'w')
 hf.create_dataset('a2d', data=a2darr)
 hf.create_dataset('a2u', data=a2uarr)
 hf.create_dataset('errarr', data=errf)
@@ -138,4 +138,4 @@ ax.set_ylim(0,4)
 ax.set_xlim(0,2)
 ax.set_ylabel('$A^{u2}$',fontsize=14)
 ax.set_xlabel('$A^{d2}$',fontsize=14)
-plt.savefig('ShockCooling_hazy_T_1000_par.png',dpi=300,bbox_inches='tight')
+plt.savefig('ShockCooling_hazy_T_100000_par.png',dpi=300,bbox_inches='tight')
