@@ -74,7 +74,7 @@ def radJumpSol(nr):
 beta=0.1
 theta=3.14/8.0
 #T0=tlf[np.argmax(lf)]
-T0=1.0e5
+T0=1.0e7
 gamma=5.0/3.0
 
 nelements=10001
@@ -100,7 +100,7 @@ lfint=lffunc(tlfint)
 #rarr=np.linspace(1.01,10.01,101)
 #rmax=8.01
 
-pool = multiprocessing.Pool(6)
+pool = multiprocessing.Pool(30)
 a2d,a2u,errarr,dT=zip(*pool.map(radJumpSol, range(0,nropoints)))
 pool.close()
 
@@ -120,7 +120,7 @@ for i in range(0,nropoints):
 
 
 #Save the data
-hf = h5py.File('ShockCooling_hazy_data_T_100000_par.h5', 'w')
+hf = h5py.File('ShockCooling_hazy_data_T_10000000_par.h5', 'w')
 hf.create_dataset('a2d', data=a2darr)
 hf.create_dataset('a2u', data=a2uarr)
 hf.create_dataset('errarr', data=errf)
@@ -138,4 +138,4 @@ ax.set_ylim(0,4)
 ax.set_xlim(0,2)
 ax.set_ylabel('$A^{u2}$',fontsize=14)
 ax.set_xlabel('$A^{d2}$',fontsize=14)
-plt.savefig('ShockCooling_hazy_T_100000_par.png',dpi=300,bbox_inches='tight')
+plt.savefig('ShockCooling_hazy_T_10000000_par.png',dpi=300,bbox_inches='tight')
