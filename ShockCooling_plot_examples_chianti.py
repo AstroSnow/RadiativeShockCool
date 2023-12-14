@@ -82,7 +82,7 @@ ax.set_xlabel('T [K]',fontsize=14)
 
 #########################################################################################
 #Get the loss function 
-filename='ShockCooling_full_data_T_18000.h5'
+filename='ShockCooling_chianti_data_T_18000_par.h5'
 f=h5py.File(filename, "r")
 shocks={}
 for var in f.keys():
@@ -144,7 +144,7 @@ la=ax2.text(0.05,3.7,'(b)')
 
 #########################################################################################
 #Get the loss function 
-filename='ShockCooling_full_data_T_50000.h5'
+filename='ShockCooling_chianti_data_T_50000_par.h5'
 f=h5py.File(filename, "r")
 shocks={}
 for var in f.keys():
@@ -207,7 +207,8 @@ la=ax3.text(0.05,3.7,'(c)')
 
 #########################################################################################
 #Get the loss function 
-filename='ShockCooling_full_data_T_max.h5'
+#filename='ShockCooling_full_data_T_max.h5'
+filename='ShockCooling_chianti_data_T_230000_par.h5'
 f=h5py.File(filename, "r")
 shocks={}
 for var in f.keys():
@@ -270,7 +271,8 @@ la=ax4.text(0.05,3.7,'(d)')
 
 #########################################################################################
 #Get the loss function 
-filename='ShockCooling_full_data_T_250000.h5'
+#filename='ShockCooling_full_data_T_250000.h5'
+filename='ShockCooling_chianti_data_T_500000_par.h5'
 f=h5py.File(filename, "r")
 shocks={}
 for var in f.keys():
@@ -333,7 +335,8 @@ la=ax5.text(0.05,3.7,'(d)')
 
 #########################################################################################
 #Get the loss function 
-filename='ShockCooling_full_data_T_500000.h5'
+#filename='ShockCooling_full_data_T_500000.h5'
+filename='ShockCooling_chianti_data_T_1000000_par.h5'
 f=h5py.File(filename, "r")
 shocks={}
 for var in f.keys():

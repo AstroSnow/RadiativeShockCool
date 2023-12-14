@@ -30,7 +30,7 @@ tlf=10**np.array(tf)
 lf=10**np.array(lf)
 lf=lf/np.max(lf)
 
-nropoints=100000
+nropoints=1000000
 
 def tempjump(a2d,a2u,beta,theta):
     tjump=a2d/a2u*(1.0+(2.0/(beta*(1.0+np.square(np.tan(theta)))))
@@ -47,7 +47,7 @@ def lossSol(r,lftu,lfint):
 	return(res)
 
 def radJumpSol(nr):
-	rmax=40.0
+	rmax=500.0
 	RhoJump=nr*(rmax-1)/(nropoints+1)+1
 	print(RhoJump)
 	a2d=[]
@@ -127,15 +127,18 @@ hf.create_dataset('errarr', data=errf)
 hf.create_dataset('dT', data=dTarr)
 hf.create_dataset('theta', data=theta)
 hf.create_dataset('beta', data=beta)
+hf.create_dataset('T0',data=T0)
 #hf.create_dataset('rmax',data=np.max(rarr))
 #hf.create_dataset('rmin',data=np.min(rarr))
 hf.close()
 
-fig, ax = plt.subplots(figsize=(9.7, 6),dpi=300)  
-ax.plot(a2darr,a2uarr,'k.', markersize=4)
-ax.plot([0,2],[0,2])
-ax.set_ylim(0,4)
-ax.set_xlim(0,2)
-ax.set_ylabel('$A^{u2}$',fontsize=14)
-ax.set_xlabel('$A^{d2}$',fontsize=14)
-plt.savefig('ShockCooling_hazy_T_10000000_par.png',dpi=300,bbox_inches='tight')
+print('Finished :)')
+
+#fig, ax = plt.subplots(figsize=(9.7, 6),dpi=300)  
+#ax.plot(a2darr,a2uarr,'k.', markersize=4)
+#ax.plot([0,2],[0,2])
+#ax.set_ylim(0,4)
+#ax.set_xlim(0,2)
+#ax.set_ylabel('$A^{u2}$',fontsize=14)
+#ax.set_xlabel('$A^{d2}$',fontsize=14)
+#plt.savefig('ShockCooling_hazy_T_1000_par.png',dpi=300,bbox_inches='tight')
